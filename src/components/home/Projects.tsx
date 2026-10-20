@@ -88,7 +88,7 @@ function ProjectCard({ project: p }: { project: Project }) {
             href={p.href}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-1 text-sm font-semibold text-lilac underline-offset-4 hover:underline"
+            className="ml-auto inline-flex items-center gap-1 text-sm font-semibold text-lilac underline-offset-4 hover:underline"
           >
             {projectCodeLabel} <ArrowUpRight className="size-4" aria-hidden="true" />
             <span className="sr-only">for {p.title} on GitHub (opens in a new tab)</span>
