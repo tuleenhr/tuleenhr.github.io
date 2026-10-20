@@ -7,7 +7,7 @@ import { Note, Star, WithHighlight } from "../ui";
 
 export function Hero() {
   return (
-    <section aria-labelledby="hero-title" className="theme-dark relative overflow-hidden px-4 pt-10 pb-12 sm:px-8 md:pt-12 lg:pb-10">
+    <section aria-labelledby="hero-title" className="theme-dark relative z-10 overflow-x-clip px-4 pt-10 pb-12 sm:px-8 md:pt-12 lg:pb-10">
       <div className="mx-auto grid max-w-6xl items-center gap-12 lg:grid-cols-[minmax(0,1fr)_340px] lg:gap-14 xl:grid-cols-[minmax(0,1fr)_360px]">
         <div>
           <p className="inline-flex items-center gap-2 rounded-full border border-line-dark bg-[#18181a] px-3.5 py-1.5 text-sm text-cream/90">

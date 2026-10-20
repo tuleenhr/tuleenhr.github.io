@@ -381,14 +381,14 @@ export const journey = {
       place: "KBT",
     },
     {
-      dates: "Jul – Aug 2026",
-      title: "Software Engineering Intern",
-      place: "Fiddlie, London",
-    },
-    {
       dates: "2026 – 2027",
       title: "Exchange year",
       place: "UC San Diego",
+    },
+    {
+      dates: "Jul – Aug 2026",
+      title: "Software Engineering Intern",
+      place: "Fiddlie, London",
     },
     {
       dates: "2024 – 2028",
