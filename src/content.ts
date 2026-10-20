@@ -299,8 +299,7 @@ export const projects = {
         "My paper sticker journal, turned into a game. Log habits across nine areas of life for XP, beat a daily boss made from whatever I've been neglecting, and let AI turn a goal into a quest line.",
       stack: ["Next.js", "Prisma", "PostgreSQL", "Groq", "PWA"],
       label: "Personal project",
-      // [EDIT] Set to "https://github.com/tuleenhr/respawn" once the repo is public.
-      href: null,
+      href: "https://github.com/tuleenhr/respawn",
       demo: "respawn",
     },
     {
@@ -309,8 +308,7 @@ export const projects = {
         "An AI chief of staff I built for myself. Every morning it turns my inbox, calendar and deadlines into one paragraph and up to three priorities. Tell it “block two hours tomorrow morning” and it's in my calendar.",
       stack: ["Next.js", "Supabase", "Llama 3.3 (Groq)", "Gmail API", "iCloud CalDAV"],
       label: "Personal project",
-      // [EDIT] Set to "https://github.com/tuleenhr/sidekick" once the repo is public.
-      href: null,
+      href: "https://github.com/tuleenhr/sidekick",
       demo: "sidekick",
     },
     {
