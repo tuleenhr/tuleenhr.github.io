@@ -1,0 +1,307 @@
+@import "tailwindcss";
+
+@theme {
+  --color-ink: #0f0f10; /* dark section background */
+  --color-ink-text: #141414; /* dark text on cream */
+  --color-cream: #f6f1ea; /* cream background + light text on dark */
+  --color-lilac: #b9a6ff; /* the one accent */
+  /* Muted text. Brief asked for #8A8580 on cream; darkened to pass 4.5:1. */
+  --color-muted-cream: #6e6964;
+  --color-muted-dark: #a8a39c;
+  --color-line-dark: #2a2a2c;
+  --color-line-cream: #e2dbd1;
+  --color-panel: #fffdf9;
+  --color-go: #34c77b;
+
+  --font-display: var(--font-archivo-black), "Arial Black", sans-serif;
+  --font-sans: var(--font-inter-tight), ui-sans-serif, system-ui, sans-serif;
+  --font-hand: var(--font-caveat), cursive;
+  --font-mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+
+  --radius-card: 24px;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  background: var(--color-ink);
+  color: var(--color-cream);
+  font-family: var(--font-sans);
+}
+
+/* Section themes set the focus ring colour so it is visible on both backgrounds. */
+.theme-dark {
+  --focus: var(--color-lilac);
+  background: var(--color-ink);
+  color: var(--color-cream);
+}
+.theme-cream {
+  --focus: var(--color-ink-text);
+  background: var(--color-cream);
+  color: var(--color-ink-text);
+}
+
+:focus-visible {
+  outline: 2px solid var(--focus, var(--color-lilac));
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+/* Anchored sections and anchor targets clear the 64px sticky nav. */
+section[id],
+[id] {
+  scroll-margin-top: 88px;
+}
+
+/* Lilac block behind a highlighted word. */
+.mark {
+  background: var(--color-lilac);
+  color: var(--color-ink-text);
+  padding: 0 0.12em;
+  margin: 0 -0.04em;
+  border-radius: 0.12em;
+  /* keep a highlighted phrase on one line so balanced wrapping never splits it */
+  white-space: nowrap;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+
+/* Buttons: the outer .btn (link/button) is the hover target and never moves; only the
+   inner .btn-face lifts. --mx/--my are the magnetic pull (set from ButtonLink). */
+.btn-face {
+  --mx: 0px;
+  --my: 0px;
+  --lift: 0px;
+  --press: 1;
+  transform: translate(var(--mx), calc(var(--my) + var(--lift))) scale(var(--press));
+  box-shadow: 0 6px 14px -12px rgb(0 0 0 / 0.35);
+  transition:
+    transform 180ms cubic-bezier(0.2, 0.7, 0.3, 1),
+    box-shadow 180ms ease,
+    background-color 150ms ease,
+    border-color 150ms ease,
+    color 150ms ease;
+}
+.btn-face svg,
+.btn-face .btn-arrow-ne {
+  display: inline-block;
+  /* the arrow moves after the lift, not with it */
+  transition: transform 180ms cubic-bezier(0.2, 0.7, 0.3, 1) 40ms;
+}
+/* Lift only for real hover pointers with motion allowed; reduced motion keeps the colour change only. */
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .btn:hover .btn-face {
+    --lift: -3px;
+    box-shadow: 0 14px 28px -14px rgb(0 0 0 / 0.45);
+  }
+  .btn:active .btn-face {
+    --lift: 0px;
+    --press: 0.98;
+    transition-duration: 100ms;
+  }
+  .btn:hover .btn-face .lucide-arrow-right {
+    transform: translateX(2px);
+  }
+  .btn:hover .btn-face .lucide-arrow-down {
+    transform: translateY(2px);
+  }
+  .btn:hover .btn-face .btn-arrow-ne {
+    transform: translate(1.5px, -1.5px);
+  }
+}
+/* The face has its own radius, so draw the focus ring around the pill. */
+.btn:focus-visible {
+  border-radius: 9999px;
+}
+
+.u-lilac {
+  text-decoration: underline;
+  text-decoration-color: var(--color-lilac);
+  text-decoration-thickness: 3px;
+  text-underline-offset: 5px;
+}
+
+/* No scroll-behavior: smooth. In-page links use scrollToTarget (src/lib/scrollToTarget.ts). */
+@media (prefers-reduced-motion: no-preference) {
+  /* Fade-and-rise reveals. Content is visible by default; it is only hidden once
+     JS has run (html.js) and motion is allowed, so it can never get stuck invisible. */
+  .js [data-reveal] {
+    opacity: 0;
+    transform: translateY(16px);
+    transition:
+      opacity 0.3s ease-out,
+      transform 0.3s ease-out;
+    transition-delay: var(--reveal-delay, 0ms);
+  }
+  .js [data-reveal][data-in] {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* Journey markers fill as their row is revealed. */
+  .js [data-reveal] .marker-fill {
+    transform: scale(0);
+    transition: transform 0.5s ease-out 0.15s;
+  }
+  .js [data-reveal][data-in] .marker-fill {
+    transform: scale(1);
+  }
+}
+
+/* ---------- Case study "How it works" (see HowItWorks.tsx) ----------
+   Default (no JS / reduced motion): every step stacked with its own screenshot. */
+.how-device,
+.how-nav {
+  display: none;
+}
+.how-steps {
+  display: grid;
+  gap: 4rem;
+}
+@media (min-width: 1024px) {
+  .how-step {
+    display: grid;
+    grid-template-columns: 45fr 55fr;
+    gap: 4rem;
+    align-items: center;
+  }
+
+  /* Enhanced desktop: sticky device left (~45%), steps scroll past on the right (~55%). */
+  .how[data-enhanced] {
+    display: grid;
+    grid-template-columns: 45fr 55fr;
+    gap: 4rem;
+  }
+  .how[data-enhanced] .how-device {
+    display: block;
+    position: sticky;
+    top: 120px;
+    align-self: start;
+  }
+  .how[data-enhanced] .how-steps {
+    gap: 0;
+  }
+  .how[data-enhanced] .how-step {
+    display: flex;
+    min-height: 45vh;
+    align-items: center;
+    opacity: 0.35;
+    transition: opacity 0.25s ease-out;
+  }
+  .how[data-enhanced] .how-step[data-active] {
+    opacity: 1;
+  }
+  /* The last step only needs its own height: no centred empty space before what follows. */
+  .how[data-enhanced] .how-step:last-child {
+    min-height: 0;
+    padding-top: 2rem;
+  }
+  .how[data-enhanced] .how-shot {
+    display: none;
+  }
+}
+
+/* Enhanced tablet/mobile: a horizontal scroll-snap row of ~85vw cards; the next one peeks in. */
+@media (max-width: 1023.98px) {
+  .how[data-enhanced] .how-nav {
+    display: flex;
+  }
+  .how[data-enhanced] .how-steps {
+    position: relative;
+    display: flex;
+    gap: 1rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    /* bleed to the screen edges so cards can peek; matches the section's side padding */
+    margin-inline: -1rem;
+    padding: 0 1rem 0.5rem;
+    scroll-padding-inline: 1rem;
+  }
+  .how[data-enhanced] .how-steps::-webkit-scrollbar {
+    display: none;
+  }
+  .how[data-enhanced] .how-step {
+    flex: 0 0 85vw;
+    scroll-snap-align: start;
+    border: 1px solid var(--color-line-dark);
+    border-radius: 24px;
+    background: #161618;
+    padding: 1.25rem;
+  }
+  .how[data-enhanced] .how-text {
+    margin-top: 1.25rem;
+  }
+}
+@media (min-width: 640px) and (max-width: 1023.98px) {
+  .how[data-enhanced] .how-steps {
+    margin-inline: -2rem;
+    padding-inline: 2rem;
+    scroll-padding-inline: 2rem;
+  }
+}
+
+/* Respawn card: "+10 XP" floats up and fades (only rendered when motion is allowed). */
+@keyframes xp-float {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-26px);
+  }
+}
+.xp-float {
+  animation: xp-float 0.6s ease-out forwards;
+}
+
+/* About route: soft pulse on the current city's dot. */
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes route-pulse {
+    from {
+      opacity: 0.55;
+      transform: scale(1);
+    }
+    to {
+      opacity: 0;
+      transform: scale(3);
+    }
+  }
+  .route-pulse {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: route-pulse 2s ease-out infinite;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .route-pulse {
+    display: none;
+  }
+}
+
+/* About stickers: a small tilt wobble when one is dropped (only rendered when motion is allowed). */
+@keyframes sticker-wobble {
+  0% { rotate: var(--r); }
+  30% { rotate: calc(var(--r) - 7deg); }
+  60% { rotate: calc(var(--r) + 4deg); }
+  100% { rotate: var(--r); }
+}
+.sticker-wobble {
+  animation: sticker-wobble 420ms ease-out;
+}
+
+/* Hero fit figure: labels fade in when the size changes. */
+@keyframes fit-fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.fit-fade {
+  animation: fit-fade 150ms ease-out;
+}
+@media (prefers-reduced-motion: reduce) {
+  .fit-fade { animation: none; }
+}
