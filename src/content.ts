@@ -17,7 +17,7 @@ export const site = {
   // Browser tab and og:title: just the name. The headline lives in the description (link previews, search results).
   title: "Tuleen Rowaihy",
   description:
-    "From “what if” to “it’s live.” I'm Tuleen, a software engineer and founder studying Computer Science with Management at King's College London, on exchange at UC San Diego.",
+    "From “what if” to “it’s live.” I'm Tuleen, a software engineer and founder studying Computer Science with Management at King's College London, on exchange at UC\u00a0San\u00a0Diego.",
   email: "tuleenhr@gmail.com",
   resume: "/docs/resume.pdf",
   resumes: [
@@ -176,7 +176,7 @@ export const hero = {
     highlight: "it’s live",
     after: ".”",
   } satisfies Highlighted,
-  sub: "I'm Tuleen, a software engineer and founder studying Computer Science with Management at King's College London, on exchange at UC San Diego.",
+  sub: "I'm Tuleen, a software engineer and founder studying Computer Science with Management at King's College London, on exchange at UC\u00a0San\u00a0Diego.",
   primary: { label: "See my work", href: "#startup" },
   secondary: { label: "Résumé", href: site.resume },
   note: "this is what my startup does ↘",

@@ -3,7 +3,13 @@ import { hero, now } from "@/content";
 import { ButtonLink } from "../ButtonLink";
 import { HeroFigure } from "../HeroFigure";
 import { ResumeMenu } from "../ResumeMenu";
-import { Note, Star, WithHighlight } from "../ui";
+import { Note, Star } from "../ui";
+
+// Split the headline's lead-in before " to " so desktop can break there: From “what if” / to “it’s live.”
+const BREAK = " to ";
+const breakAt = hero.headline.before.indexOf(BREAK);
+const lineOne = breakAt === -1 ? hero.headline.before : hero.headline.before.slice(0, breakAt);
+const lineTwo = breakAt === -1 ? "" : hero.headline.before.slice(breakAt + 1);
 
 export function Hero() {
   return (
@@ -15,19 +21,30 @@ export function Hero() {
             {hero.status}
           </p>
 
+          {/* Spacing: badge → headline 40px, headline → intro 40px, intro → "Now" 28px, "Now" → buttons 44px */}
           <h1
             id="hero-title"
-            className="mt-7 font-display text-[clamp(2.4rem,6.4vw,4.75rem)] leading-[1.02] tracking-[-0.015em] text-balance"
+            className="mt-10 font-display text-[clamp(2.4rem,6.4vw,4.75rem)] leading-[1.1] tracking-[-0.015em] text-balance"
           >
-            <WithHighlight text={hero.headline} />
+            {/* From 768px the headline breaks before "to"; on phones it wraps naturally (balanced). */}
+            {lineOne}
+            {lineTwo && (
+              <>
+                {" "}
+                <br className="hidden md:inline" />
+                {lineTwo}
+              </>
+            )}
+            <span className="mark">{hero.headline.highlight}</span>
+            {hero.headline.after}
           </h1>
 
-          <p className="mt-7 max-w-xl text-lg leading-relaxed text-muted-dark">{hero.sub}</p>
-          <p className="mt-4 max-w-xl font-mono text-[13px] leading-relaxed text-muted-dark">
+          <p className="mt-10 max-w-[36rem] text-lg leading-[1.6] text-pretty text-muted-dark">{hero.sub}</p>
+          <p className="mt-7 max-w-xl font-mono text-[13px] leading-relaxed text-muted-dark">
             {now.label}: {now.items.join(" · ")}
           </p>
 
-          <div className="mt-9 flex flex-wrap gap-3">
+          <div className="mt-11 flex flex-wrap gap-3">
             <ButtonLink href={hero.primary.href}>
               {hero.primary.label} <ArrowDown className="size-4" aria-hidden="true" />
             </ButtonLink>
